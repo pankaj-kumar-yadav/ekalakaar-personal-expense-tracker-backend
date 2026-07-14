@@ -1,11 +1,13 @@
 import { type Document, model, type Model, Schema, type Types } from "mongoose";
 
+import { EXPENSE, ExpenseCategory } from "../constants/expense.js";
+
 export interface ExpenseDoc extends Document {
   _id: Types.ObjectId;
   user: Types.ObjectId;
   amount: number;
   description: string;
-  category: string;
+  category: ExpenseCategory | string;
   date: Date;
 }
 
@@ -14,12 +16,12 @@ const expenseSchema = new Schema<ExpenseDoc>(
     user: {
       type: Schema.Types.ObjectId,
       required: true,
-      ref: "User",
+      ref: EXPENSE.USER_REF,
     },
     amount: {
       type: Number,
       required: true,
-      min: 0.01,
+      min: EXPENSE.MIN_AMOUNT,
     },
     description: {
       type: String,
@@ -30,6 +32,7 @@ const expenseSchema = new Schema<ExpenseDoc>(
       type: String,
       required: true,
       trim: true,
+      enum: Object.values(ExpenseCategory),
     },
     date: {
       type: Date,
@@ -42,9 +45,9 @@ const expenseSchema = new Schema<ExpenseDoc>(
 );
 
 const Expense: Model<ExpenseDoc> = model<ExpenseDoc>(
-  "Expense",
+  EXPENSE.MODEL_NAME,
   expenseSchema,
-  "expenses",
+  EXPENSE.COLLECTION,
 );
 
 export default Expense;

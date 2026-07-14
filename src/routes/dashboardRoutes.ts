@@ -1,5 +1,6 @@
 import { Router } from "express";
 
+import { DashboardPath } from "../constants/dashboard.js";
 import {
   getDashboardActivity,
   getDashboardChart,
@@ -17,17 +18,17 @@ const router = Router();
 router.use(protect);
 
 router.get(
-  "/metrics",
+  DashboardPath.METRICS,
   validateRequest(periodQuerySchema, ValidationSource.QUERY),
   getDashboardMetrics,
 );
 router.get(
-  "/chart",
+  DashboardPath.CHART,
   validateRequest(periodQuerySchema, ValidationSource.QUERY),
   getDashboardChart,
 );
 router.get(
-  "/activity",
+  DashboardPath.ACTIVITY,
   validateRequest(activityQuerySchema, ValidationSource.QUERY),
   getDashboardActivity,
 );

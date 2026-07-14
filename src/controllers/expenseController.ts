@@ -1,6 +1,12 @@
 import type { RequestHandler, Response } from "express";
 import asyncHandler from "express-async-handler";
 
+import {
+  EXPENSE,
+  ExpenseCategory,
+  ExpenseMessage,
+} from "../constants/expense.js";
+import { HttpStatus } from "../constants/http.js";
 import { NotFoundError } from "../core/CustomError.js";
 import Expense from "../models/Expense.js";
 import type { ProtectedRequest } from "../types/express.js";
@@ -17,7 +23,7 @@ export const createExpense: RequestHandler = asyncHandler(
       date,
     });
 
-    res.status(201).json({
+    res.status(HttpStatus.CREATED).json({
       success: true,
       data: expense,
     });
@@ -27,12 +33,12 @@ export const createExpense: RequestHandler = asyncHandler(
 export const getExpenses: RequestHandler = asyncHandler(
   async (req: ProtectedRequest, res: Response) => {
     const expenses = await Expense.find({ user: req.user!._id })
-      .sort({ date: -1, createdAt: -1 })
-      .select("-user");
+      .sort(EXPENSE.SORT.LIST)
+      .select(EXPENSE.FIELDS.OMIT_USER);
 
     const totalAmount = expenses.reduce((sum, expense) => sum + expense.amount, 0);
 
-    res.status(200).json({
+    res.status(HttpStatus.OK).json({
       success: true,
       count: expenses.length,
       totalAmount,
@@ -49,14 +55,14 @@ export const deleteExpense: RequestHandler = asyncHandler(
     });
 
     if (!expense) {
-      throw new NotFoundError("Expense not found");
+      throw new NotFoundError(ExpenseMessage.NOT_FOUND);
     }
 
     await expense.deleteOne();
 
-    res.status(200).json({
+    res.status(HttpStatus.OK).json({
       success: true,
-      message: "Expense deleted successfully",
+      message: ExpenseMessage.DELETED,
       data: {
         _id: expense._id,
         amount: expense.amount,
@@ -70,20 +76,60 @@ export const deleteExpense: RequestHandler = asyncHandler(
 
 function daysAgo(days: number): Date {
   const date = new Date();
-  date.setHours(12, 0, 0, 0);
+  date.setHours(EXPENSE.SEED_NOON_HOUR, 0, 0, 0);
   date.setDate(date.getDate() - days);
   return date;
 }
 
 const SEED_EXPENSES = [
-  { amount: 250, description: "Lunch at cafe", category: "Food", daysAgo: 0 },
-  { amount: 80, description: "Metro card top-up", category: "Transport", daysAgo: 1 },
-  { amount: 1200, description: "Electricity bill", category: "Bills", daysAgo: 2 },
-  { amount: 450, description: "Groceries", category: "Food", daysAgo: 3 },
-  { amount: 180, description: "Auto to office", category: "Transport", daysAgo: 4 },
-  { amount: 99, description: "Cloud subscription", category: "Other", daysAgo: 5 },
-  { amount: 320, description: "Dinner with friends", category: "Food", daysAgo: 6 },
-  { amount: 60, description: "Parking fee", category: "Transport", daysAgo: 0 },
+  {
+    amount: 250,
+    description: "Lunch at cafe",
+    category: ExpenseCategory.FOOD,
+    daysAgo: 0,
+  },
+  {
+    amount: 80,
+    description: "Metro card top-up",
+    category: ExpenseCategory.TRANSPORT,
+    daysAgo: 1,
+  },
+  {
+    amount: 1200,
+    description: "Electricity bill",
+    category: ExpenseCategory.BILLS,
+    daysAgo: 2,
+  },
+  {
+    amount: 450,
+    description: "Groceries",
+    category: ExpenseCategory.FOOD,
+    daysAgo: 3,
+  },
+  {
+    amount: 180,
+    description: "Auto to office",
+    category: ExpenseCategory.TRANSPORT,
+    daysAgo: 4,
+  },
+  {
+    amount: 99,
+    description: "Cloud subscription",
+    category: ExpenseCategory.OTHER,
+    daysAgo: 5,
+  },
+  {
+    amount: 320,
+    description: "Dinner with friends",
+    category: ExpenseCategory.FOOD,
+    daysAgo: 6,
+  },
+  {
+    amount: 60,
+    description: "Parking fee",
+    category: ExpenseCategory.TRANSPORT,
+    daysAgo: 0,
+  },
 ] as const;
 
 /** Always inserts the fixed sample set (duplicates allowed on repeat calls). */
@@ -103,7 +149,7 @@ export const seedExpenses: RequestHandler = asyncHandler(
       return rest;
     });
 
-    res.status(201).json({
+    res.status(HttpStatus.CREATED).json({
       success: true,
       count: data.length,
       data,

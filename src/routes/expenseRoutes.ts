@@ -1,5 +1,6 @@
 import { Router } from "express";
 
+import { ExpensePath } from "../constants/expense.js";
 import {
   createExpense,
   deleteExpense,
@@ -18,17 +19,17 @@ const router = Router();
 router.use(protect);
 
 router.post(
-  "/",
+  ExpensePath.ROOT,
   validateRequest(createExpenseSchema, ValidationSource.BODY),
   createExpense,
 );
 
-router.post("/seed", seedExpenses);
+router.post(ExpensePath.SEED, seedExpenses);
 
-router.get("/", getExpenses);
+router.get(ExpensePath.ROOT, getExpenses);
 
 router.delete(
-  "/:id",
+  ExpensePath.BY_ID,
   validateRequest(expenseIdSchema, ValidationSource.PARAMS),
   deleteExpense,
 );
