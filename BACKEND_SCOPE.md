@@ -92,7 +92,7 @@ Build a simple full-stack Expense Tracker that allows users to **add**, **view**
 
 ## 5. API Specification
 
-Base URL (local): `http://localhost:5000`
+Base URL (local): `http://localhost:8080`
 
 All expense routes are mounted under `/api`.
 
@@ -251,14 +251,14 @@ backend/
 
 | Variable | Required | Example | Description |
 |---|---|---|---|
-| `PORT` | No | `5000` | Server port (default: 5000) |
+| `PORT` | No | `8080` | Server port (default: 8080) |
 | `MONGODB_URI` | Yes | `mongodb://localhost:27017/expense-tracker` | MongoDB connection string |
 | `NODE_ENV` | No | `development` | `development` or `production` |
 
 **`.env.example` (commit this, not `.env`):**
 
 ```env
-PORT=5000
+PORT=8080
 MONGODB_URI=mongodb://localhost:27017/expense-tracker
 NODE_ENV=development
 ```
@@ -377,18 +377,18 @@ Or separate repos — link both in the submission email.
 
 ```bash
 # Health check
-curl http://localhost:5000/api/health
+curl http://localhost:8080/api/health
 
 # Add expense
-curl -X POST http://localhost:5000/api/expenses \
+curl -X POST http://localhost:8080/api/expenses \
   -H "Content-Type: application/json" \
   -d '{"amount":250,"description":"Lunch","category":"Food","date":"2026-07-14"}'
 
 # Get all expenses
-curl http://localhost:5000/api/expenses
+curl http://localhost:8080/api/expenses
 
 # Delete expense
-curl -X DELETE http://localhost:5000/api/expenses/<EXPENSE_ID>
+curl -X DELETE http://localhost:8080/api/expenses/<EXPENSE_ID>
 ```
 
 ---
