@@ -1,3 +1,4 @@
+import { format } from "date-fns";
 import type { RequestHandler, Response } from "express";
 import asyncHandler from "express-async-handler";
 import type { Types } from "mongoose";
@@ -20,10 +21,7 @@ type DailyBucket = {
 };
 
 function localDateKey(date: Date): string {
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, "0");
-  const day = String(date.getDate()).padStart(2, "0");
-  return `${year}-${month}-${day}`;
+  return format(date, "yyyy-MM-dd");
 }
 
 async function getDailyBuckets(

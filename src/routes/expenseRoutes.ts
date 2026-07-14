@@ -4,6 +4,7 @@ import {
   createExpense,
   deleteExpense,
   getExpenses,
+  seedExpenses,
 } from "../controllers/expenseController.js";
 import { ValidationSource, validateRequest } from "../helpers/validator.js";
 import { protect } from "../middleware/authMiddleware.js";
@@ -21,6 +22,8 @@ router.post(
   validateRequest(createExpenseSchema, ValidationSource.BODY),
   createExpense,
 );
+
+router.post("/seed", seedExpenses);
 
 router.get("/", getExpenses);
 

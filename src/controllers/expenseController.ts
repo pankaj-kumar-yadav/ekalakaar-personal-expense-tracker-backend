@@ -67,3 +67,46 @@ export const deleteExpense: RequestHandler = asyncHandler(
     });
   },
 );
+
+function daysAgo(days: number): Date {
+  const date = new Date();
+  date.setHours(12, 0, 0, 0);
+  date.setDate(date.getDate() - days);
+  return date;
+}
+
+const SEED_EXPENSES = [
+  { amount: 250, description: "Lunch at cafe", category: "Food", daysAgo: 0 },
+  { amount: 80, description: "Metro card top-up", category: "Transport", daysAgo: 1 },
+  { amount: 1200, description: "Electricity bill", category: "Bills", daysAgo: 2 },
+  { amount: 450, description: "Groceries", category: "Food", daysAgo: 3 },
+  { amount: 180, description: "Auto to office", category: "Transport", daysAgo: 4 },
+  { amount: 99, description: "Cloud subscription", category: "Other", daysAgo: 5 },
+  { amount: 320, description: "Dinner with friends", category: "Food", daysAgo: 6 },
+  { amount: 60, description: "Parking fee", category: "Transport", daysAgo: 0 },
+] as const;
+
+/** Always inserts the fixed sample set (duplicates allowed on repeat calls). */
+export const seedExpenses: RequestHandler = asyncHandler(
+  async (req: ProtectedRequest, res: Response) => {
+    const payload = SEED_EXPENSES.map((item) => ({
+      user: req.user!._id,
+      amount: item.amount,
+      description: item.description,
+      category: item.category,
+      date: daysAgo(item.daysAgo),
+    }));
+
+    const created = await Expense.insertMany(payload);
+    const data = created.map((expense) => {
+      const { user: _user, ...rest } = expense.toObject();
+      return rest;
+    });
+
+    res.status(201).json({
+      success: true,
+      count: data.length,
+      data,
+    });
+  },
+);

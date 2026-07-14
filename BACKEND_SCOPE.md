@@ -58,6 +58,7 @@ Build a simple full-stack Expense Tracker that allows users to **add**, **view**
 | Database | MongoDB |
 | ODM (recommended) | Mongoose |
 | Language | TypeScript (current repo setup) |
+| Date utility | `date-fns` (period ranges, date formatting) |
 | Env config | `dotenv` |
 | CORS | `cors` (for React frontend on a different origin) |
 
@@ -268,7 +269,7 @@ NODE_ENV=development
 ## 8. Dependencies to Add
 
 ```bash
-pnpm add mongoose
+pnpm add mongoose date-fns
 ```
 
 Optional but useful:
@@ -277,6 +278,8 @@ Optional but useful:
 pnpm add -D @types/mongoose   # only if types are not bundled with mongoose version
 ```
 
+**`date-fns` usage:** period/date range helpers (e.g. week/month/year bounds) and formatting labels in dashboard APIs. Prefer `date-fns` over raw `Date` arithmetic.
+
 ---
 
 ## 9. Implementation Checklist
@@ -284,6 +287,7 @@ pnpm add -D @types/mongoose   # only if types are not bundled with mongoose vers
 ### Setup
 
 - [x] Install `mongoose`
+- [x] Install `date-fns`
 - [x] Create `.env` with `MONGODB_URI`
 - [x] Add `.env.example`
 - [x] Create `src/config/db.ts` — connect to MongoDB on startup
@@ -363,6 +367,7 @@ Or separate repos — link both in the submission email.
 |---|---|
 | Express + TypeScript setup | Done |
 | `cors`, `dotenv`, `express.json` | Done |
+| `date-fns` (period ranges / formatting) | Done |
 | `GET /api/health` | Done |
 | MongoDB connection | Done |
 | JWT user auth (`/api/users`) | Done |
