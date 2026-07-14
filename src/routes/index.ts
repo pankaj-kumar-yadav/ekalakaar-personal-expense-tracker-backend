@@ -1,5 +1,6 @@
 import { Router } from "express";
 
+import dashboardRoutes from "./dashboardRoutes.js";
 import expenseRoutes from "./expenseRoutes.js";
 import userRoutes from "./userRoutes.js";
 
@@ -11,5 +12,6 @@ router.get("/health", (_req, res) => {
 
 router.use("/users", userRoutes);
 router.use("/expenses", expenseRoutes);
+router.use("/dashboard", dashboardRoutes);
 
 export default router;
