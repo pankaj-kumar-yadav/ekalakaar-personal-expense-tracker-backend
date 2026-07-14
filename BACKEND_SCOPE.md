@@ -283,28 +283,28 @@ pnpm add -D @types/mongoose   # only if types are not bundled with mongoose vers
 
 ### Setup
 
-- [ ] Install `mongoose`
-- [ ] Create `.env` with `MONGODB_URI`
-- [ ] Add `.env.example`
-- [ ] Create `src/config/db.ts` — connect to MongoDB on startup
-- [ ] Handle DB connection errors gracefully
+- [x] Install `mongoose`
+- [x] Create `.env` with `MONGODB_URI`
+- [x] Add `.env.example`
+- [x] Create `src/config/db.ts` — connect to MongoDB on startup
+- [x] Handle DB connection errors gracefully
 
 ### Model
 
-- [ ] Create `Expense` Mongoose model with `amount`, `description`, `category`, `date`
-- [ ] Add schema validation (required fields, `amount > 0`)
+- [x] Create `Expense` Mongoose model with `amount`, `description`, `category`, `date`
+- [x] Add schema validation (required fields, `amount > 0`)
 
 ### Routes & Controllers
 
-- [ ] `POST /api/expenses` — validate body, save, return `201`
-- [ ] `GET /api/expenses` — fetch all, return list (+ optional `totalAmount`)
-- [ ] `DELETE /api/expenses/:id` — validate ID, delete, return `404` if missing
+- [x] `POST /api/expenses` — validate body, save, return `201`
+- [x] `GET /api/expenses` — fetch all, return list (+ optional `totalAmount`)
+- [x] `DELETE /api/expenses/:id` — validate ID, delete, return `404` if missing
 
 ### Middleware & Errors
 
-- [ ] Enable `cors()` and `express.json()` (already done)
-- [ ] Return consistent JSON error shape: `{ success: false, message: "..." }`
-- [ ] Add global error handler (optional)
+- [x] Enable `cors()` and `express.json()` (already done)
+- [x] Return consistent JSON error shape: `{ success: false, message: "..." }`
+- [x] Add global error handler (optional)
 
 ### Testing (Manual)
 
@@ -364,11 +364,12 @@ Or separate repos — link both in the submission email.
 | Express + TypeScript setup | Done |
 | `cors`, `dotenv`, `express.json` | Done |
 | `GET /api/health` | Done |
-| MongoDB connection | Not started |
-| Expense model | Not started |
-| `POST /api/expenses` | Not started |
-| `GET /api/expenses` | Not started |
-| `DELETE /api/expenses/:id` | Not started |
+| MongoDB connection | Done |
+| JWT user auth (`/api/users`) | Done |
+| Expense model | Done |
+| `POST /api/expenses` | Done |
+| `GET /api/expenses` | Done |
+| `DELETE /api/expenses/:id` | Done |
 
 ---
 
