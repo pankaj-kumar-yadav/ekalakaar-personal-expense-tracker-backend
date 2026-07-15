@@ -12,6 +12,7 @@ import { protect } from "../middleware/authMiddleware.js";
 import {
   createExpenseSchema,
   expenseIdSchema,
+  expenseListQuerySchema,
 } from "../schemas/expenseSchema.js";
 
 const router = Router();
@@ -26,7 +27,11 @@ router.post(
 
 router.post(ExpensePath.SEED, seedExpenses);
 
-router.get(ExpensePath.ROOT, getExpenses);
+router.get(
+  ExpensePath.ROOT,
+  validateRequest(expenseListQuerySchema, ValidationSource.QUERY),
+  getExpenses,
+);
 
 router.delete(
   ExpensePath.BY_ID,

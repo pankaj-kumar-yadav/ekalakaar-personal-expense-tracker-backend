@@ -22,6 +22,8 @@ export enum ExpenseValidationMessage {
   CATEGORY_INVALID = "Category must be Food, Transport, Bills, or Other",
   DATE_REQUIRED = "Valid date is required",
   INVALID_ID = "Invalid expense id",
+  PAGE_INVALID = "Page must be an integer greater than or equal to 1",
+  LIMIT_INVALID = "Limit must be an integer between 1 and 100",
 }
 
 export const EXPENSE = {
@@ -35,5 +37,10 @@ export const EXPENSE = {
   },
   SORT: {
     LIST: { date: -1 as const, createdAt: -1 as const },
+  },
+  PAGINATION: {
+    DEFAULT_PAGE: 1,
+    DEFAULT_LIMIT: 100,
+    MAX_LIMIT: 100,
   },
 } as const;

@@ -2,6 +2,7 @@ import { Types } from "mongoose";
 import { z } from "zod";
 
 import {
+  EXPENSE,
   ExpenseCategory,
   ExpenseValidationMessage,
 } from "../constants/expense.js";
@@ -23,4 +24,20 @@ export const expenseIdSchema = z.object({
   id: z.string().refine((id) => Types.ObjectId.isValid(id), {
     message: ExpenseValidationMessage.INVALID_ID,
   }),
+});
+
+export const expenseListQuerySchema = z.object({
+  page: z.coerce
+    .number({ message: ExpenseValidationMessage.PAGE_INVALID })
+    .int({ message: ExpenseValidationMessage.PAGE_INVALID })
+    .min(1, { message: ExpenseValidationMessage.PAGE_INVALID })
+    .default(EXPENSE.PAGINATION.DEFAULT_PAGE),
+  limit: z.coerce
+    .number({ message: ExpenseValidationMessage.LIMIT_INVALID })
+    .int({ message: ExpenseValidationMessage.LIMIT_INVALID })
+    .min(1, { message: ExpenseValidationMessage.LIMIT_INVALID })
+    .max(EXPENSE.PAGINATION.MAX_LIMIT, {
+      message: ExpenseValidationMessage.LIMIT_INVALID,
+    })
+    .default(EXPENSE.PAGINATION.DEFAULT_LIMIT),
 });
