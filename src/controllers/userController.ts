@@ -64,16 +64,3 @@ export const logoutUser: RequestHandler = asyncHandler(
     });
   },
 );
-
-export const getMe: RequestHandler = asyncHandler(
-  async (req: ProtectedRequest, res: Response) => {
-    res.status(200).json({
-      success: true,
-      data: {
-        _id: req.user?._id,
-        name: req.user?.name,
-        email: req.user?.email,
-      },
-    });
-  },
-);
